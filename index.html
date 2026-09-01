@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Happy 1 Year Anniversary!</title>
+    
+    <!-- Fonts & Tailwind -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['"Playfair Display"', 'serif'],
+                    },
+                    colors: {
+                        glass: 'rgba(20, 20, 25, 0.4)',
+                        glassBorder: 'rgba(255, 255, 255, 0.1)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Global Constraints */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden !important;
+            background-color: #0a0a0f;
+            color: #fff;
+            touch-action: none;
+        }
+
+        /* Ambient Animated Background */
+        .ambient-bg {
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            background: radial-gradient(circle at 50% 50%, #1e1b4b 0%, #0a0a0f 70%);
+            animation: pulseBg 10s infinite alternate ease-in-out;
+        }
+        @keyframes pulseBg {
+            0% { background: radial-gradient(circle at 30% 30%, #311326 0%, #0a0a0f 70%); }
+            100% { background: radial-gradient(circle at 70% 70%, #1e1b4b 0%, #0a0a0f 70%); }
+        }
+
+        /* Slide Transition Logic */
+        .slide {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.8s ease-in-out, transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+            transform: scale(1.03);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            z-index: 10;
+        }
+        .slide.active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: scale(1);
+            z-index: 20;
+        }
+
+        /* Glassmorphism Panel */
+        .glass-panel {
+            background: var(--glass);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glassBorder);
+            border-radius: 2rem;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 500px;
+            max-height: 85vh;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Subtle Image Masking */
+        .image-container {
+            position: relative;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+        .slide-img {
+            max-height: 35vh;
+            width: auto;
+            max-width: 100%;
+            border-radius: 1rem;
+            object-fit: contain;
+            /* Subtle blending fade at edges */
+            mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 60%, rgba(0,0,0,0.1) 100%);
+            -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 60%, rgba(0,0,0,0.1) 100%);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            pointer-events: none;
+        }
+
+        
+        /* Slide 1: Hearts */
+        .floating-heart {
+            position: absolute;
+            color: #f43f5e;
+            pointer-events: none;
+            animation: floatUp 2s ease-out forwards;
+            font-size: 1.5rem;
+            z-index: 50;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(0.5); opacity: 0; }
+            20% { opacity: 1; transform: translateY(-20px) scale(1.2); }
+            100% { transform: translateY(-100px) scale(1); opacity: 0; }
+        }
+
+        /* Slide 2: Momos */
+        .momo-zone {
+            position: relative;
+            width: 100%;
+            height: 120px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 1rem;
+            border: 1px dashed rgba(255,255,255,0.2);
+            overflow: hidden;
+        }
+        .falling-momo {
+            position: absolute;
+            font-size: 2rem;
+            cursor: pointer;
+            user-select: none;
+            animation: fallDown linear forwards;
+            z-index: 10;
+        }
+        @keyframes fallDown {
+            from { transform: translateY(-40px) rotate(0deg); }
+            to { transform: translateY(140px) rotate(360deg); }
+        }
+        .momo-popped {
+            animation: floatUp 0.5s ease-out forwards !important;
+            font-weight: bold;
+            color: #fbbf24;
+            font-size: 1.2rem;
+        }
+
+        /* Slide 3: Valorant Defuse */
+        .defuse-box {
+            position: relative;
+            width: 100%;
+            height: 60px;
+            background: rgba(0,0,0,0.4);
+            border: 2px solid #ef4444;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            cursor: pointer;
+            touch-action: none;
+            user-select: none;
+        }
+        .defuse-progress {
+            position: absolute;
+            top: 0; left: 0; bottom: 0;
+            width: 0%;
+            background: rgba(239, 68, 68, 0.6);
+            transition: background 0.3s;
+        }
+        .defuse-text {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: monospace;
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: white;
+            z-index: 2;
+        }
+
+        /* Slide 4: Music Notes */
+        .music-btn {
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            padding: 0.75rem 2rem;
+            border-radius: 9999px;
+            font-weight: bold;
+            transition: transform 0.1s;
+            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
+        }
+        .music-btn:active { transform: scale(0.95); }
+        .music-note {
+            position: absolute;
+            font-size: 2rem;
+            color: #c084fc;
+            pointer-events: none;
+            animation: noteFloat 1.5s ease-out forwards;
+        }
+        @keyframes noteFloat {
+            0% { opacity: 0; transform: translate(0, 0) scale(0.5); }
+            20% { opacity: 1; }
+            100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(1.5) rotate(var(--rot)); }
+        }
+
+
+        /* Slide 5: Scratch Off */
+        .scratch-wrapper {
+            position: relative;
+            display: inline-block;
+            margin: 0 auto;
+        }
+        #scratch-canvas {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 10;
+            cursor: crosshair;
+            touch-action: none;
+            border-radius: 1rem;
+        }
+        
+        /* Slide 6: Envelope */
+        .envelope-wrapper {
+            width: 240px;
+            height: 140px;
+            background: #831843; /* pink-900 */
+            position: relative;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            perspective: 1000px;
+            margin-top: 1rem;
+        }
+        .envelope-flap {
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            border-left: 120px solid transparent;
+            border-right: 120px solid transparent;
+            border-top: 75px solid #9d174d; /* pink-800 */
+            transform-origin: top;
+            transition: transform 0.6s ease;
+            z-index: 4;
+        }
+        .envelope-front {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            border-left: 120px solid transparent;
+            border-right: 120px solid transparent;
+            border-bottom: 75px solid #be185d; /* pink-700 */
+            z-index: 3;
+        }
+        .envelope-letter {
+            position: absolute;
+            top: 5px; left: 5px; right: 5px; bottom: 5px;
+            background: #fdf2f8; /* pink-50 */
+            color: #4c1d95;
+            border-radius: 0.25rem;
+            padding: 1rem;
+            font-family: 'Playfair Display', serif;
+            font-size: 0.85rem;
+            text-align: center;
+            transition: transform 0.8s ease, z-index 0.1s;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+        }
+        .envelope-wrapper.open .envelope-flap {
+            transform: rotateX(180deg);
+            z-index: 1;
+        }
+        .envelope-wrapper.open .envelope-letter {
+            transform: translateY(-90px) scale(1.1);
+            z-index: 5;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+        }
+
+        /* Slide 7: Fireworks Canvas */
+        #fireworks-canvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Behind glass panel */
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="antialiased text-white">
+
+    <div class="ambient-bg"></div>
+
+    <!-- Navigation Arrows -->
+    <button id="prev-btn" class="fixed left-3 md:left-8 top-1/2 -translate-y-1/2 z-[60] bg-white/10 hover:bg-white/20 backdrop-blur-md p-3 rounded-full transition-all hidden border border-white/10" onclick="navigate(-1)">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
+    </button>
+    <button id="next-btn" class="fixed right-3 md:right-8 top-1/2 -translate-y-1/2 z-[60] bg-white/10 hover:bg-white/20 backdrop-blur-md p-3 rounded-full transition-all border border-white/10 animate-bounce" onclick="navigate(1)">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+    </button>
+
+    <!-- Fixed Spotify Embed -->
+    <div class="fixed bottom-4 right-4 z-[100] opacity-80 hover:opacity-100 transition-opacity drop-shadow-2xl">
+        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/artist/4Gso3d4CscCijv0lmajZWs?utm_source=generator" width="250" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    </div>
+
+    <!-- Main Slider Container -->
+    <div id="slider" class="w-full h-full relative">
+
+        <!-- Slide 1: Welcome & Hearts -->
+        <div id="slide-1" class="slide active">
+            <div class="glass-panel" onclick="spawnHeartClick(event)">
+                <h1 class="text-3xl md:text-4xl font-serif font-bold text-rose-300 mb-4 text-center">Happy 1 Year Anniversary</h1>
+                <div class="image-container">
+                    <img src="IMG_1855.jpg" class="slide-img" alt="Us">
+                </div>
+                <p class="text-rose-200/80 italic text-sm text-center">Tap anywhere to spread love. ❤️</p>
+            </div>
+        </div>
+
+        <!-- Slide 2: Food Date Mini-game -->
+        <div id="slide-2" class="slide">
+            <div class="glass-panel">
+                <h2 class="text-2xl font-serif text-amber-300 mb-3 text-center">Our Food Dates</h2>
+                <div class="image-container">
+                    <img src="IMG_1164.jpg" class="slide-img" alt="Food Date">
+                </div>
+                
+                <div class="w-full">
+                    <div class="flex justify-between text-xs text-amber-200 font-bold mb-2 uppercase tracking-widest px-1">
+                        <span>Catch the Momos</span>
+                        <span>Caught: <span id="momo-score" class="text-white">0</span></span>
+                    </div>
+                    <div class="momo-zone" id="momo-zone"></div>
+                    <p id="momo-msg" class="text-center text-amber-400 font-serif italic mt-3 opacity-0 transition-opacity duration-500">"You are my favorite craving."</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Valorant Defuse -->
+        <div id="slide-3" class="slide">
+            <div class="glass-panel text-center">
+                <h2 class="text-2xl font-black italic uppercase text-red-400 mb-3 tracking-widest">My Favorite Duo</h2>
+                <div class="image-container">
+                    <img src="IMG_0702.jpg" class="slide-img" alt="Valorant Duo">
+                </div>
+                
+                <div class="w-full mt-2">
+                    <p class="text-xs text-red-200 uppercase tracking-widest mb-2 font-semibold">The Spike is planted!</p>
+                    <div class="defuse-box" id="defuse-btn">
+                        <div class="defuse-progress" id="defuse-bar"></div>
+                        <div class="defuse-text" id="defuse-label">HOLD TO DEFUSE</div>
+                    </div>
+                    <p id="val-msg" class="text-green-400 font-serif italic mt-3 opacity-0 transition-opacity duration-500">"Spike defused. But you already captured my heart."</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Music Theme -->
+        <div id="slide-4" class="slide relative">
+            <div class="glass-panel text-center" id="music-panel">
+                <h2 class="text-2xl font-serif text-indigo-300 mb-3">Our Vibes</h2>
+                <div class="image-container">
+                    <img src="IMG_0691.jpg" class="slide-img" alt="Music Vibes">
+                </div>
+                <button class="music-btn mt-4 text-sm tracking-wider" onmousedown="burstNotes(event)" ontouchstart="burstNotes(event)">
+                    MAKE SOME NOISE
+                </button>
+            </div>
+        </div>
+
+        <!-- Slide 5: Scratch-Off Canvas -->
+        <div id="slide-5" class="slide">
+            <div class="glass-panel text-center">
+                <h2 class="text-2xl font-serif text-teal-300 mb-4">Reveal My Favorite View</h2>
+                
+                <!-- Explicit sizing wrapper for exact canvas overlay mapping -->
+                <div class="scratch-wrapper" id="scratch-container">
+                    <img src="IMG_0708.jpg" id="scratch-img" class="slide-img !mb-0" alt="Hidden View" onload="initScratchPad()">
+                    <canvas id="scratch-canvas"></canvas>
+                </div>
+                
+                <p class="text-teal-200/60 italic text-xs mt-4">Drag to scratch the silver lining...</p>
+            </div>
+        </div>
+
+        <!-- Slide 6: The Envelope -->
+        <div id="slide-6" class="slide">
+            <div class="glass-panel text-center flex flex-col items-center">
+                <h2 class="text-2xl font-serif text-pink-300 mb-3">A Note For You</h2>
+                <div class="image-container !mb-0">
+                    <img src="IMG_20250915_143527594.jpg" class="slide-img" alt="Us">
+                </div>
+                
+                <div class="envelope-wrapper" id="envelope" onclick="openEnvelope()">
+                    <div class="envelope-flap"></div>
+                    <div class="envelope-front"></div>
+                    <div class="envelope-letter font-medium leading-relaxed">
+                        Every trip from Garia to Barasat is worth it just to see you smile. ❤️
+                    </div>
+                </div>
+                <p class="text-[10px] text-pink-200/50 uppercase tracking-widest mt-3">Tap envelope to open</p>
+            </div>
+        </div>
+
+        <!-- Slide 7: Finale & Fireworks -->
+        <div id="slide-7" class="slide">
+            <!-- Fireworks Canvas behind the panel -->
+            <canvas id="fireworks-canvas"></canvas>
+            
+            <div class="glass-panel text-center border-amber-300/30">
+                <h2 class="text-4xl font-serif font-bold text-amber-300 mb-4">Happy Anniversary!</h2>
+                <div class="image-container">
+                    <img src="IMG_20250915_154955942.jpg" class="slide-img" style="mask-image: none; -webkit-mask-image: none;" alt="Anniversary">
+                </div>
+                
+                <p class="text-amber-100 font-serif text-lg leading-relaxed mt-2">
+                    Here's to a year filled with Valorant queues, amazing food, and unconditional love. I love you!
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Global Navigation
+        let currentSlide = 1;
+        const totalSlides = 7;
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+
+        function updateNav() {
+            prevBtn.classList.toggle('hidden', currentSlide === 1);
+            nextBtn.classList.toggle('hidden', currentSlide === totalSlides);
+        }
+
+        function showSlide(index) {
+            document.querySelectorAll('.slide').forEach(el => el.classList.remove('active'));
+            document.getElementById(`slide-${index}`).classList.add('active');
+            currentSlide = index;
+            updateNav();
+
+            // Trigger slide-specific logic
+            if(currentSlide === 2) startMomoGame();
+            else stopMomoGame();
+
+            if(currentSlide === 5) {
+                // Slight delay to ensure layout is computed
+                setTimeout(initScratchPad, 100);
+            }
+            
+            if(currentSlide === 7) startFireworks();
+            else stopFireworks();
+        }
+
+        function navigate(direction) {
+            let newIndex = currentSlide + direction;
+            if (newIndex >= 1 && newIndex <= totalSlides) {
+                showSlide(newIndex);
+            }
+        }
+
+        // Keyboard support
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' && currentSlide < totalSlides) navigate(1);
+            if (e.key === 'ArrowLeft' && currentSlide > 1) navigate(-1);
+        });
+
+        function spawnHeartClick(e) {
+            if(currentSlide !== 1) return;
+            const panel = e.currentTarget;
+            const rect = panel.getBoundingClientRect();
+            
+            // Spawn 3 hearts
+            for(let i=0; i<3; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'floating-heart';
+                heart.innerText = ['❤️', '💖', '✨'][Math.floor(Math.random() * 3)];
+                
+                // Position relative to the click inside the panel
+                const x = (e.clientX || e.touches?.[0].clientX) - rect.left + (Math.random()*40 - 20);
+                const y = (e.clientY || e.touches?.[0].clientY) - rect.top + (Math.random()*40 - 20);
+                
+                heart.style.left = x + 'px';
+                heart.style.top = y + 'px';
+                
+                panel.appendChild(heart);
+                setTimeout(() => heart.remove(), 2000);
+            }
+        }
+
+        const momoZone = document.getElementById('momo-zone');
+        const momoScoreEl = document.getElementById('momo-score');
+        const momoMsg = document.getElementById('momo-msg');
+        let momoInterval;
+        let momoScore = 0;
+
+        function startMomoGame() {
+            if(momoInterval) return;
+            momoScore = 0;
+            momoScoreEl.innerText = momoScore;
+            momoMsg.style.opacity = 0;
+            momoZone.innerHTML = '';
+            
+            momoInterval = setInterval(() => {
+                if(document.hidden || currentSlide !== 2) return;
+                
+                const momo = document.createElement('div');
+                momo.className = 'falling-momo';
+                momo.innerText = '🥟';
+                momo.style.left = Math.random() * 80 + 10 + '%';
+                momo.style.animationDuration = (Math.random() * 1.5 + 2) + 's'; // 2 to 3.5s
+                
+                const catchMomo = (e) => {
+                    e.preventDefault();
+                    momoScore++;
+                    momoScoreEl.innerText = momoScore;
+                    momo.className = 'falling-momo momo-popped';
+                    momo.innerText = '+1';
+                    
+                    if(momoScore >= 5) {
+                        momoMsg.style.opacity = 1;
+                    }
+                    setTimeout(() => momo.remove(), 500);
+                };
+                
+                momo.addEventListener('mousedown', catchMomo);
+                momo.addEventListener('touchstart', catchMomo, {passive: false});
+
+                momoZone.appendChild(momo);
+                setTimeout(() => { if(momo.parentNode) momo.remove(); }, 3500);
+            }, 800);
+        }
+        function stopMomoGame() {
+            clearInterval(momoInterval);
+            momoInterval = null;
+        }
+
+        const defuseBtn = document.getElementById('defuse-btn');
+        const defuseBar = document.getElementById('defuse-bar');
+        const defuseLabel = document.getElementById('defuse-label');
+        const valMsg = document.getElementById('val-msg');
+        
+        let defuseReq;
+        let defuseProgress = 0;
+        let isDefusing = false;
+        let isDefused = false;
+
+        function updateDefuse() {
+            if(!isDefusing) return;
+            defuseProgress += 1.2; // roughly 1.5 seconds to fill at 60fps
+            defuseBar.style.width = defuseProgress + '%';
+            
+            if(defuseProgress >= 100) {
+                isDefused = true;
+                defuseLabel.innerText = "DEFUSED";
+                defuseBar.style.background = 'rgba(74, 222, 128, 0.8)';
+                defuseBtn.style.borderColor = '#4ade80';
+                valMsg.style.opacity = 1;
+                return;
+            }
+            defuseReq = requestAnimationFrame(updateDefuse);
+        }
+
+        function startDefuse(e) {
+            e.preventDefault();
+            if(isDefused) return;
+            isDefusing = true;
+            defuseLabel.innerText = "DEFUSING...";
+            defuseReq = requestAnimationFrame(updateDefuse);
+        }
+
+        function stopDefuse(e) {
+            if(e) e.preventDefault();
+            if(isDefused) return;
+            isDefusing = false;
+            cancelAnimationFrame(defuseReq);
+            defuseProgress = 0;
+            defuseBar.style.width = '0%';
+            defuseLabel.innerText = "HOLD TO DEFUSE";
+        }
+
+        defuseBtn.addEventListener('mousedown', startDefuse);
+        defuseBtn.addEventListener('touchstart', startDefuse, {passive: false});
+        window.addEventListener('mouseup', stopDefuse);
+        window.addEventListener('touchend', stopDefuse);
+        defuseBtn.addEventListener('mouseleave', stopDefuse);
+
+        function burstNotes(e) {
+            e.preventDefault();
+            if(currentSlide !== 4) return;
+            const panel = document.getElementById('music-panel');
+            const rect = panel.getBoundingClientRect();
+            
+            for(let i=0; i<6; i++) {
+                const note = document.createElement('div');
+                note.className = 'music-note';
+                note.innerText = ['🎵', '🎶', '🎧'][Math.floor(Math.random() * 3)];
+                
+                // Center origin
+                note.style.left = '50%';
+                note.style.top = '50%';
+                
+                // Random explosion trajectory
+                const angle = Math.random() * Math.PI * 2;
+                const dist = Math.random() * 100 + 50;
+                const tx = Math.cos(angle) * dist + 'px';
+                const ty = Math.sin(angle) * dist + 'px';
+                const rot = (Math.random() * 360 - 180) + 'deg';
+                
+                note.style.setProperty('--tx', tx);
+                note.style.setProperty('--ty', ty);
+                note.style.setProperty('--rot', rot);
+                
+                panel.appendChild(note);
+                setTimeout(() => note.remove(), 1500);
+            }
+        }
+
+        const canvas = document.getElementById('scratch-canvas');
+        const ctx = canvas.getContext('2d', { willReadFrequently: true });
+        const img = document.getElementById('scratch-img');
+        const container = document.getElementById('scratch-container');
+        let isScratching = false;
+
+        function initScratchPad() {
+            // Get actual rendered dimensions of the image
+            const rect = img.getBoundingClientRect();
+            if(rect.width === 0 || rect.height === 0) {
+                // Fallback if image hasn't fully computed
+                setTimeout(initScratchPad, 200);
+                return;
+            }
+            
+            // Set canvas exact size mapping to the image
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+            
+            // Draw silver foil
+            ctx.globalCompositeOperation = 'source-over';
+            ctx.fillStyle = '#94a3b8'; // slate-400
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Add text instructions on the canvas
+            ctx.font = "bold 16px Inter, sans-serif";
+            ctx.fillStyle = "#334155";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText("Scratch to Reveal", canvas.width/2, canvas.height/2);
+        }
+
+        function getMousePos(e) {
+            const rect = canvas.getBoundingClientRect();
+            // Handle both touch and mouse coords
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            return {
+                x: clientX - rect.left,
+                y: clientY - rect.top
+            };
+        }
+
+        function scratch(e) {
+            if (!isScratching || currentSlide !== 5) return;
+            e.preventDefault(); // Stop scrolling on mobile
+            
+            const pos = getMousePos(e);
+            
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.beginPath();
+            ctx.arc(pos.x, pos.y, 25, 0, Math.PI * 2); // Brush size
+            ctx.fill();
+        }
+
+        canvas.addEventListener('mousedown', (e) => { isScratching = true; scratch(e); });
+        canvas.addEventListener('touchstart', (e) => { isScratching = true; scratch(e); }, {passive: false});
+        
+        window.addEventListener('mouseup', () => isScratching = false);
+        window.addEventListener('touchend', () => isScratching = false);
+        
+        canvas.addEventListener('mousemove', scratch);
+        canvas.addEventListener('touchmove', scratch, {passive: false});
+
+        // Handle window resize for scratch canvas
+        window.addEventListener('resize', () => {
+            if(currentSlide === 5) initScratchPad();
+        });
+
+        function openEnvelope() {
+            document.getElementById('envelope').classList.add('open');
+        }
+
+        const fwCanvas = document.getElementById('fireworks-canvas');
+        const fwCtx = fwCanvas.getContext('2d');
+        let fwParticles = [];
+        let fwReq;
+
+        function startFireworks() {
+            fwCanvas.width = window.innerWidth;
+            fwCanvas.height = window.innerHeight;
+            if(fwParticles.length === 0) loopFireworks();
+        }
+
+        function stopFireworks() {
+            cancelAnimationFrame(fwReq);
+            fwParticles = [];
+            fwCtx.clearRect(0, 0, fwCanvas.width, fwCanvas.height);
+        }
+
+        function explode(x, y) {
+            const colors = ['#fde047', '#fb923c', '#f43f5e', '#a78bfa']; // vibrant tailwind colors
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            for(let i = 0; i < 40; i++) {
+                fwParticles.push({
+                    x: x, y: y,
+                    vx: (Math.random() - 0.5) * 10,
+                    vy: (Math.random() - 0.5) * 10,
+                    alpha: 1,
+                    color: color
+                });
+            }
+        }
+
+        function loopFireworks() {
+            fwReq = requestAnimationFrame(loopFireworks);
+            
+            // Fade effect
+            fwCtx.globalCompositeOperation = 'destination-out';
+            fwCtx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+            fwCtx.fillRect(0, 0, fwCanvas.width, fwCanvas.height);
+            fwCtx.globalCompositeOperation = 'lighter';
+            
+            // Randomly spawn fireworks
+            if(Math.random() < 0.05) {
+                explode(Math.random() * fwCanvas.width, Math.random() * fwCanvas.height * 0.6);
+            }
+
+            // Update particles
+            for(let i = fwParticles.length - 1; i >= 0; i--) {
+                let p = fwParticles[i];
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vy += 0.1; // gravity
+                p.alpha -= 0.02; // fade out
+                
+                if(p.alpha <= 0) {
+                    fwParticles.splice(i, 1);
+                } else {
+                    fwCtx.beginPath();
+                    fwCtx.arc(p.x, p.y, 2, 0, Math.PI*2);
+                    fwCtx.fillStyle = p.color;
+                    fwCtx.globalAlpha = p.alpha;
+                    fwCtx.fill();
+                }
+            }
+            fwCtx.globalAlpha = 1;
+        }
+
+        // Re-adjust canvas on resize
+        window.addEventListener('resize', () => {
+            if(currentSlide === 7) {
+                fwCanvas.width = window.innerWidth;
+                fwCanvas.height = window.innerHeight;
+            }
+        });
+
+    </script>
+</body>
+</html>
